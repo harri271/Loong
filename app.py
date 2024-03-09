@@ -5,38 +5,56 @@ from bokeh.plotting import figure, show
 from bokeh.io import output_notebook
 import seaborn as sns
 import numpy as np
-
-
-
+from flask import Flask, render_template, request
 
 df_test = pd.read_csv("wordbank_instrument_data.csv")
 
-X = df_test['age'].values.reshape(-1,1)
-yc = df_test['comprehension'].values
-comprehension_model = LinearRegression(fit_intercept=False)
-yp = df_test['production'].values
-production_model = LinearRegression(fit_intercept=False)
+# Flask constructor  
+app = Flask(__name__) 
 
-# Fit the model to the data
-comprehension_model.fit(X, yc)
-production_model.fit(X, yp)
+@app.route('/input_form', methods=['GET', 'POST'])
+def input_form():
+    if request.method == 'POST':
+        age = int(request.form['age'])
+        comprehension = int(request.form['comprehension'])
+        production = int(request.form['production'])
 
-age, comprehension, production = np.array(int(input("Age (month): "))).reshape(-1, 1), int(input("Comprehension: ")), int(input("Production: "))
-meanc = comprehension_model.predict(age)
-residuals = yc - meanc
-sdc = np.std(residuals)
-percentilec = (comprehension - meanc)/sdc
+        X = df_test['age'].values.reshape(-1, 1)
+        yc = df_test['comprehension'].values
+        comprehension_model = LinearRegression(fit_intercept=False)
+        yp = df_test['production'].values
+        production_model = LinearRegression(fit_intercept=False)
 
-meanp = production_model.predict(age)
-residuals = yc - meanp
-sdc = np.std(residuals)
-percentilep = (production - meanp)/sdc
+        # Fit the model to the data
+        comprehension_model.fit(X, yc)
+        production_model.fit(X, yp)
 
-print(f"Average comprehension is {round(meanc[0])}. Your score in your age group {round(norm.cdf(percentilec[0]) * 100)}% \n\
-Average production is {round(meanp[0])}. Your score in your age group {round(norm.cdf(percentilep[0]) * 100)}%")
+        age_input = np.array(age).reshape(-1, 1)
+        meanc = comprehension_model.predict(age_input)
+        residuals = yc - meanc
+        sdc = np.std(residuals)
+        percentilec = (comprehension - meanc) / sdc
+
+        meanp = production_model.predict(age_input)
+        residuals = yp - meanp
+        sdp = np.std(residuals)
+        percentilep = (production - meanp) / sdp
+
+        result = {
+            'average_comprehension': round(meanc[0]),
+            'comprehension_score': round(norm.cdf(percentilec[0]) * 100),
+            'average_production': round(meanp[0]),
+            'production_score': round(norm.cdf(percentilep[0]) * 100)
+        }
+
+        return render_template('result.html', result=result)
+    else:
+        return render_template('input_form.html')
+
 
 ## Regression prediction
-def regression():
+@app.route("/regression_plot")
+def regression_plot():
     p = figure(title="ABC", x_axis_label='age', y_axis_label='Word count')
     coefficients = np.polyfit(df_test['age'], df_test['comprehension'], 2)
     poly = np.poly1d(coefficients)
@@ -62,10 +80,7 @@ def regression():
 
     return p
 
-# c = regression('comprehension')
-p = regression()
 
-
-# Show the plot
-output_notebook()
-show(p)
+# Main Driver Function  
+if __name__ == '__main__':
+    app.run('localhost', port=9115)
