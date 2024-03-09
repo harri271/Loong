@@ -7,7 +7,7 @@ import seaborn as sns
 import numpy as np
 from flask import Flask, render_template, request
 
-df_test = pd.read_csv("wordbank_instrument_data.csv")
+df_test = pd.read_csv("data/wordbank_instrument_data.csv")
 
 # Flask constructor  
 app = Flask(__name__) 
