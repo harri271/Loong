@@ -6,8 +6,17 @@ from bokeh.io import output_notebook
 import seaborn as sns
 import numpy as np
 from flask import Flask, render_template, request
+import plotly.graph_objects as go
+import json
 
-df_test = pd.read_csv("data/wordbank_instrument_data.csv")
+df_test = pd.read_csv("data/wordbank_instrument_data.csv") # testing result
+
+# demographic population
+df_demo = pd.read_csv("data/18district.csv") 
+df_demo_filter = df_demo.groupby(['district'])['number'].aggregate('sum').reset_index()
+# Read the JSON file for district boundary
+with open('data/18district_boundary.json') as file:
+    data = json.load(file)
 
 # Flask constructor  
 app = Flask(__name__) 
@@ -77,8 +86,28 @@ def regression_plot():
     y_values = poly(x_values)
     # Plot the regression line
     p.line(x_values, y_values, line_color='blue', legend_label="Production", line_width=2)
-
     return p
+
+@app.route("/regression_plot")
+def regression_plot():
+    fig = go.Figure(go.Choroplethmapbox(
+        geojson=data,
+        featureidkey='properties.地區',
+        locations = df_demo['district'],
+        z=df_demo['number'],  # Replace with your own data for the choropleth color scale
+        colorscale="Viridis",  # Replace with the desired colorscale
+        marker_line_width=0.2,
+        marker_opacity=0.5
+    ))
+
+    # Set the mapbox style and center the map on Hong Kong
+    fig.update_layout(
+        mapbox_style="carto-positron",
+        mapbox_zoom=10,
+        mapbox_center={"lat": 22.3964, "lon": 114.1095}
+    )
+
+    return fig
 
 
 # Main Driver Function  
