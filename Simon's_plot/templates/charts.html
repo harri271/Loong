@@ -1,0 +1,25 @@
+ 
+<!DOCTYPE html> 
+<html lang="en"> 
+  
+<head> 
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.0.1.min.js"></script> 
+    <title>Bokeh Charts</title> 
+</head> 
+  
+<body> 
+    <div>
+        {{ div1 | safe }} 
+        {{ script1 | safe }}
+    </div>
+    <div>
+        {{ div1 | safe }}
+    </div>
+    <hr>
+    <div>
+        {{ plotly_html | safe }}
+    </div>
+
+</body> 
+  
+</html>
