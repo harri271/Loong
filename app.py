@@ -88,25 +88,31 @@ def regression_plot():
     p.line(x_values, y_values, line_color='blue', legend_label="Production", line_width=2)
     return p
 
-@app.route("/regression_plot")
-def regression_plot():
+@app.route("/choropleth_plot")
+def update_graph(sex):
+    if sex=='Total':
+        df_demo_filter = df_demo.groupby(['district'])['number'].aggregate('sum').reset_index()
+    elif sex=='Male':
+        df_demo_filter = df_demo[df_demo.gender == '男']
+    elif sex=='Female':
+        df_demo_filter = df_demo[df_demo.gender == '女']
     fig = go.Figure(go.Choroplethmapbox(
         geojson=data,
         featureidkey='properties.地區',
-        locations = df_demo['district'],
+        locations = df_demo_filter['district'],
+        # locations=[feature['properties']['地區'] for feature in data['features']],
         z=df_demo['number'],  # Replace with your own data for the choropleth color scale
         colorscale="Viridis",  # Replace with the desired colorscale
-        marker_line_width=0.2,
+        marker_line_width=0.5,
         marker_opacity=0.5
     ))
 
-    # Set the mapbox style and center the map on Hong Kong
     fig.update_layout(
-        mapbox_style="carto-positron",
-        mapbox_zoom=10,
-        mapbox_center={"lat": 22.3964, "lon": 114.1095}
-    )
-
+    mapbox_style="carto-positron",
+    mapbox_zoom=8.5,
+    mapbox_center={"lat": 22.364, "lon": 114.15},
+    )   
+    
     return fig
 
 
