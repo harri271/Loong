@@ -8,8 +8,10 @@ import numpy as np
 from flask import Flask, render_template, request
 import plotly.graph_objects as go
 import json
+from bokeh.embed import components
+import plotly.graph_objects as go
 
-df_test = pd.read_csv("data/wordbank_instrument_data.csv") # testing result
+df_test = pd.read_csv("data/wordbank_administration_data.csv") # testing result
 
 # demographic population
 df_demo = pd.read_csv("data/18district.csv") 
@@ -21,54 +23,11 @@ with open('data/18district_boundary.json') as file:
 # Flask constructor  
 app = Flask(__name__) 
 
-@app.route('/input_form', methods=['GET', 'POST'])
-def input_form():
-    if request.method == 'POST':
-        age = int(request.form['age'])
-        comprehension = int(request.form['comprehension'])
-        production = int(request.form['production'])
-
-        X = df_test['age'].values.reshape(-1, 1)
-        yc = df_test['comprehension'].values
-        comprehension_model = LinearRegression(fit_intercept=False)
-        yp = df_test['production'].values
-        production_model = LinearRegression(fit_intercept=False)
-
-        # Fit the model to the data
-        comprehension_model.fit(X, yc)
-        production_model.fit(X, yp)
-
-        age_input = np.array(age).reshape(-1, 1)
-        meanc = comprehension_model.predict(age_input)
-        residuals = yc - meanc
-        sdc = np.std(residuals)
-        percentilec = (comprehension - meanc) / sdc
-
-        meanp = production_model.predict(age_input)
-        residuals = yp - meanp
-        sdp = np.std(residuals)
-        percentilep = (production - meanp) / sdp
-
-        result = {
-            'average_comprehension': round(meanc[0]),
-            'comprehension_score': round(norm.cdf(percentilec[0]) * 100),
-            'average_production': round(meanp[0]),
-            'production_score': round(norm.cdf(percentilep[0]) * 100)
-        }
-
-        return render_template('result.html', result=result)
-    else:
-        return render_template('input_form.html')
-
-
-## Regression prediction
-@app.route("/regression_plot")
+@app.route("/")
 def regression_plot():
     p = figure(title="ABC", x_axis_label='age', y_axis_label='Word count')
     coefficients = np.polyfit(df_test['age'], df_test['comprehension'], 2)
     poly = np.poly1d(coefficients)
-
-    # slope, intercept = np.polyfit(df_test['age'], df_test['comprehension'], 1)
 
     # Generate the regression line points
     x_values = np.linspace(df_test['age'].min(), df_test['age'].max(), 48)
@@ -79,23 +38,16 @@ def regression_plot():
     coefficients = np.polyfit(df_test['age'], df_test['production'], 2)
     poly = np.poly1d(coefficients)
 
-    # slope, intercept = np.polyfit(df_test['age'], df_test['comprehension'], 1)
-
     # Generate the regression line points
     x_values = np.linspace(df_test['age'].min(), df_test['age'].max(), 48)
     y_values = poly(x_values)
     # Plot the regression line
     p.line(x_values, y_values, line_color='blue', legend_label="Production", line_width=2)
-    return p
+    # Generate the HTML components of the plot
+    script1, div1 = components(p)
 
-@app.route("/choropleth_plot")
-def update_graph(sex):
-    if sex=='Total':
-        df_demo_filter = df_demo.groupby(['district'])['number'].aggregate('sum').reset_index()
-    elif sex=='Male':
-        df_demo_filter = df_demo[df_demo.gender == '男']
-    elif sex=='Female':
-        df_demo_filter = df_demo[df_demo.gender == '女']
+
+    df_demo_filter = df_demo.groupby(['district'])['number'].aggregate('sum').reset_index()
     fig = go.Figure(go.Choroplethmapbox(
         geojson=data,
         featureidkey='properties.地區',
@@ -112,10 +64,18 @@ def update_graph(sex):
     mapbox_zoom=8.5,
     mapbox_center={"lat": 22.364, "lon": 114.15},
     )   
-    
-    return fig
+    # Generate the HTML components of the plot
+    plotly_html = fig.to_html(full_html=False)
 
+
+    # Return the components to the HTML template 
+    return render_template( 
+        template_name_or_list='charts.html', 
+        script1=script1,
+        div1=div1,
+        plotly_html=plotly_html,
+    ) 
 
 # Main Driver Function  
 if __name__ == '__main__':
-    app.run('localhost', port=9115)
+    app.run(debug=True)

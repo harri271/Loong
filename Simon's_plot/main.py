@@ -71,7 +71,7 @@ def regression_plot():
     # Return the components to the HTML template 
     return render_template( 
         template_name_or_list='charts.html', 
-        script1=script1, 
+        script1=script1,
         div1=div1,
         plotly_html=plotly_html,
     ) 
