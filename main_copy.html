@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>BabyLan</title>
+    <title>The BabyLan Tank</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="icon.jpg" type="image/x-icon">
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -92,21 +93,24 @@
       object-fit: cover;
       z-index: -1;
     }
+    .light-pink-bg {
+      background-color: rgb(248, 206, 212);
+    }
 
   </style>
     <script>
       function initMap() {
         // Create a map object and specify the center and zoom level
         var map = new google.maps.Map(document.getElementById('map'), {
-          center: { lat: 22.3193, lng: 114.1694 },
+          center: { lat: 22.4217, lng: 114.2070 },
           zoom: 12
         });
   
         // Add a marker to the map
         var marker = new google.maps.Marker({
-          position: { lat: 22.3193, lng: 114.1694 },
+          position: { lat: 22.4217, lng: 114.2070 },
           map: map,
-          title: 'Hong Kong'
+          title: 'The Chinese University of Hong Kong'
         });
       }
     </script>
@@ -118,7 +122,10 @@
       aria-label="Tenth navbar example"
     >
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">BabyLan</a>
+        <a class="navbar-brand" href="#">
+          <img src="icon.jpg" alt="Website Icon" width="30" height="30" class="d-inline-block align-text-top">
+          BabyLan
+        </a>
         <button
           class="navbar-toggler"
           type="button"
@@ -156,38 +163,69 @@
       </div>
     </nav>
     <div class="container-banner1" id="main">
-      <h1>Main</h1>
-      <p>Resize this responsive page to see the effect!</p>
+      <h1>Introduction</h1>
+      <p>The BabyLan Tank, the brand new solution for your children!</p>
     </div>
 
-    <div class="container mt-5">
-      <div class="row">
-        <div class="col-sm-4">
-          <h3>Column 1</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-6">
+          <!-- Your content here -->
+          <br>
+          <p>The Baby Language Tank project, led by a team of linguists, psychologists, and engineers at the Chinese University of Hong Kong, aims to use easily administered tests to measure language development in babies and toddlers.
+          </p>
           <p>
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris...
+            By employing these tests, the project can assess children's language skills and identify areas where they may need additional support. Number of Students with Special Educational Needs (language-related) in Public Sector Ordinary Primary and Secondary Schools has been increasing in the past five years. Based on the results, the team offers professional advice and guidance to parents, providing tailored recommendations to enhance language development.
+          </p>
+          <p>
+            This approach ensures that parents have access to valuable insights about their child's progress and can make informed decisions about their language learning journey.
+          </p>
+          <div id="carouselExampleSlidesOnly" class="carousel" data-bs-ride="carousel">
+            <div class="carousel-inner justify-content-md-center">
+              <div class="carousel-item active">
+                <img src="baby.jpg" class="d-block w-100" alt="Image 1">
+              </div>
+              <div class="carousel-item">
+                <img src="city.jpg" class="d-block w-100" alt="Image 2">
+              </div>
+              <div class="carousel-item">
+                <img src="baby1.jpg" class="d-block w-100" alt="Image 3">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mt-5 light-pink-bg">
+      <br>
+      <div class="row justify-content-center">
+        <div class="col-sm-4">
+          <h3>Who?</h3>
+          <p>We focus on babies and toddlers aged at 0-4 years old.</p>
+          <p>
+
           </p>
         </div>
         <div class="col-sm-4">
-          <h3>Column 2</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+          <h3>What?</h3>
+          <p>We focus on babies and toddlers aged at 0-4 years old.</p>
           <p>
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris...
+            <p>
+
+            </p>
           </p>
+
         </div>
         <div class="col-sm-4">
-          <h3>Column 3</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+          <h3>How?</h3>
+          <p>We use word and cognition tests and games to facilitate their language learning journey.</p>
           <p>
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris...
           </p>
         </div>
       </div>
-    <br><br>
+    <br>
+    <br>
     </div>
 
     <div class="container-banner2" id="background">
@@ -230,10 +268,77 @@
       <p>Resize this responsive page to see the effect!</p>
     </div>
 
+    <br>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-6">
+          <br><br><br>
+          <div id="carouselExampleSlidesOnly" class="carousel" data-bs-ride="carousel">
+            <div class="carousel-inner justify-content-md-center">
+              <div class="carousel-item active">
+                <img src="BabyTank.jpg" class="d-block w-100" alt="Image 1">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <!-- Your content here -->
+          <br>
+          <p>Discuss with doctors or nurses if your child has the following problem(s) when he or she reaches the age:
+          </p>
+          <p>
+            By the end of the first month, your baby:
+          </p>
+          <ul class="list-unstyled">
+            <li>•	Seldom moves her arms or legs</li>
+            <li>•	Appears excessively floppy or stiff</li>
+            <li>•	Does not blink to bright light</li>
+            <li>•	Does not focus or follow your face briefly at near</li>
+            <li>•	Does not respond to loud noises</li>
+            <li></li>
+          </ul>
+          <p>
+            By the end of the third month, your baby:
+          </p>
+          <ul class="list-unstyled">
+            <li>•	Appears floppy or too stiff on handling</li>
+            <li>•	Does not move much and not support her head temporarily when lying on her tummy</li>
+            <li>•	Keeps her hands fisted all the time and does not hold rattle put in her own hands</li>
+            <li>•	Does not follow moving objects with her eyes at near</li>
+            <li>•	Does not respond to loud noises</li>
+            <li>•	Does not make any sound</li>
+            <li>•	Does not smile in response to your voice or face</li>
+            <li></li>
+            <li></li>
+          </ul>
+
+          <p>
+            By the end of the seventh month, your baby:
+          </p>
+
+          <p>
+            <ul class="list-unstyled">
+              <li>•	Does not move much or move asymmetrically</li>
+              <li>•	Does not sit well with support on her hands</li>
+              <li>•	Does not bear some weight on legs when being held up</li>
+              <li>•	Does not reach and grasp objects</li>
+              <li>•	Does not visually follow objects nearby or at a distance</li>
+              <li>•	Has one or both eyes consistently turn in or out (i.e. squinting)</li>
+              <li>•	Does not respond to calling</li>
+              <li>•	Does not turn head to locate the source of sound</li>
+              <li>•	Does not vocalize</li>
+              <li></li>
+            </ul>
+          </p>
+
+        </div>
+      </div>
+    </div>
+
     <div class="container mt-5">
       <div class="row">
         <div class="col-sm-4">
-          <h3>Column 1</h3>
+          <h3>Language Test</h3>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
           <p>
             Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -241,7 +346,7 @@
           </p>
         </div>
         <div class="col-sm-4">
-          <h3>Column 2</h3>
+          <h3>Cognition Test</h3>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
           <p>
             Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -249,7 +354,7 @@
           </p>
         </div>
         <div class="col-sm-4">
-          <h3>Column 3</h3>
+          <h3>Sensorimotor Test</h3>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
           <p>
             Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -300,7 +405,7 @@
   </body>
   <footer class="footer mt-auto py-3">
     <div class="container text-center">
-      <span class="text-muted">2024 BabyLan Limited Website. All rights reserved.</span>
+      <span class="text-muted">2024 The BabyLan Tank Limited Website. All rights reserved.</span>
     </div>
   </footer>
 </html>
